@@ -1,0 +1,206 @@
+<html>
+<head>
+    <title>会员列表</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/bootstrap-3.3.7/css/bootstrap.min.css">
+    <script src="/bootstrap-3.3.7/js/jquery.min.js"></script>
+    <script src="/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        #form1 {
+            margin-bottom: 10px;
+        }
+
+        table {
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h3>会员列表</h3>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <div>
+
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addone">
+                    添加
+                </button>
+
+                <div class="modal fade  bs-example-modal-lg" id="addone" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title">
+                                    添加会员
+                                </h4>
+                            </div>
+
+                            <form class="form-horizontal" id="form1" method="post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">客户名称</label>
+                                        <div class="col-md-3">
+                                            <input type="text" name="cname" class="form-control" placeholder="姓名">
+                                        </div>
+                                        <label class="col-md-2 control-label">昵称</label>
+                                        <div class="col-md-3">
+                                            <input type="text" name="username" class="form-control" placeholder="用户">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">住址</label>
+                                        <div class="col-md-3">
+                                            <input type="text" name="addr" class="form-control">
+                                        </div>
+                                        <label class="col-md-2 control-label">电话</label>
+                                        <div class="col-md-3">
+                                            <input type="text" name="phone" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">顾客等级</label>
+                                        <div class="col-md-3">
+                                            <select name="level" class="form-control">
+                                                <option value="普通会员">普通会员</option>
+                                                <option value="银牌会员">银牌会员</option>
+                                                <option value="金牌会员">金牌会员</option>
+                                                <option value="钻石会员">钻石会员</option>
+                                                <option value="终身会员">终身会员</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-md-2 control-label">是否有效</label>
+                                        <div class="col-md-3">
+                                            <input type="radio" value="Y" name="isEnabled">Y
+                                            <input type="radio" value="N" name="isEnabled">N
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">积分</label>
+                                        <div class="col-md-3">
+                                            <input type="text" name="score" class="form-control">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">关闭
+                                    </button>
+                                    <button onclick="submitForm()" class="btn btn-primary">提交
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <table class="table table-bordered table-hover table-striped">
+                    <tr>
+                        <th>编号</th>
+                        <th>客户名称</th>
+                        <th>昵称</th>
+                        <th>客户地址</th>
+                        <th>联系电话</th>
+                        <th>顾客等级</th>
+                        <th>是否有效</th>
+                        <th>积分</th>
+                        <th>操作</th>
+                    </tr>
+                    <tbody id="tb">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
+<script>
+    function showTable(){
+        $.post(
+            '/customer?cmd=list',
+            function (data) {
+                var info = "";
+                $(data).each(function (i, v) {
+                    info += "<tr>";
+                    info += "<td>" + v.cid + "</td>";
+                    info += "<td>" + v.cname + "</td>";
+                    info += "<td>" + v.username + "</td>";
+                    info += "<td>" + v.addr + "</td>";
+                    info += "<td>" + v.phone + "</td>";
+                    info += "<td>" + v.level + "</td>";
+                    info += "<td>" + IsEnableStr(v.isEnabled) + "</td>";
+                    info += "<td>" + v.score + "</td>";
+                    info += "<td><a class='btn btn-sm btn-danger ' onclick='deleteByCid(" + v.cid + ")'>删除</a></td>";
+                    info += "</tr>";
+                });
+                $("#tb").html(info);
+            }, "json"
+        )
+    }
+    $(function () {
+        showTable()
+    });
+
+    function IsEnableStr(v) {
+        var str = "";
+        if (v === "Y" || v === "y") {
+            str = "有效";
+        }
+        if (v === "N" || v === "n") {
+            str = "禁用";
+        }
+        return str;
+    }
+
+    function deleteByCid(v) {
+        var f = confirm("确认删除吗？");
+        if (f === true) {
+            $.ajax({
+                    url: "/customer?cmd=delete&cid=" + v,
+                    success: function (data) {
+                        if (data.success == 0) {
+                            alert(data.message);
+                        }else{
+                            showTable();
+                        }
+                    },
+                    dataType: "json"
+                }
+            )
+        }
+    }
+
+    function submitForm() {
+        var form_data = $("form").serialize();
+        $.post(
+            "/customer?cmd=add",
+            form_data,
+            function (data) {
+                if (data.success == 0) {
+                    alert(data.message);
+                }
+            }, "json"
+        );
+    }
+
+</script>

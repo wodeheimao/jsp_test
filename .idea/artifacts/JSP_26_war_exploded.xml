@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="JSP_26:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/JSP_26_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="JSP_26" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/JSP_26/web/WEB-INF/lib/jstl-1.2.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/JSP_26/web/WEB-INF/lib/junit-4.9.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/JSP_26/web/WEB-INF/lib/c3p0-0.9.1.2.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/JSP_26/web/WEB-INF/lib/fastjson-1.2.49.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/JSP_26/web/WEB-INF/lib/commons-pool2-2.3.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/JSP_26/web/WEB-INF/lib/commons-dbutils-1.4.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/JSP_26/web/WEB-INF/lib/mysql-connector-java-5.1.7-bin.jar" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="JSP_26/web/Web" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/JSP_25/JSP_25.iml" filepath="$PROJECT_DIR$/JSP_25/JSP_25.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JSP_26/JSP_26.iml" filepath="$PROJECT_DIR$/JSP_26/JSP_26.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JSP_27/JSP_27.iml" filepath="$PROJECT_DIR$/JSP_27/JSP_27.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JSP_28/JSP_28.iml" filepath="$PROJECT_DIR$/JSP_28/JSP_28.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JSP_29/JSP_29.iml" filepath="$PROJECT_DIR$/JSP_29/JSP_29.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JSP_30/JSP_30.iml" filepath="$PROJECT_DIR$/JSP_30/JSP_30.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JSP_31/JSP_31.iml" filepath="$PROJECT_DIR$/JSP_31/JSP_31.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+    </modules>
+  </component>
+</project>
