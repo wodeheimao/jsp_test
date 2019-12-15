@@ -1,0 +1,170 @@
+<html>
+<head>
+    <title>报销列表</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
+    <script src="bootstrap-3.3.7/js/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        #form1 {
+            margin-bottom: 10px;
+        }
+
+        table {
+
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <h3>报销列表</h3>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <div>
+
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addone">
+                    添加
+                </button>
+
+                <div class="modal fade  bs-example-modal-lg" id="addone" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×
+                                </button>
+                                <h4 class="modal-title">
+                                    添加单据
+                                </h4>
+                            </div>
+
+                            <form class="form-horizontal" id="form1" method="post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">报销人</label>
+                                        <div class="col-md-3">
+                                            <input type="text" name="ename" class="form-control" >
+                                        </div>
+                                        <label class="col-md-2 control-label">报销原因</label>
+                                        <div class="col-md-3">
+                                            <input type="text" name="areasion" class="form-control" >
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">报销类别</label>
+                                        <div class="col-md-3">
+                                            <select name="tid" id="tid" class="form-control">
+
+                                            </select>
+                                        </div>
+                                        <label class="col-md-2 control-label">申请金额</label>
+                                        <div class="col-md-3">
+                                            <input type="text" name="amoney" class="form-control">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">关闭
+                                    </button>
+                                    <button onclick="submitForm()" class="btn btn-primary">提交
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <table class="table table-bordered table-hover table-striped">
+                    <tr>
+                        <th>编号</th>
+                        <th>报销人</th>
+                        <th>报销原因</th>
+                        <th>报销类别</th>
+                        <th>申请金额</th>
+                        <th>批复金额</th>
+                        <th>报销时间</th>
+                        <th>单据状态</th>
+                    </tr>
+                    <tbody id="tb">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
+<script>
+    function showTable(){
+        $.post(
+            'expense?cmd=list',
+            function (data) {
+                var info = "";
+                $(data).each(function (i, v) {
+                    info += "<tr>";
+                    info += "<td>" + v.exid + "</td>";
+                    info += "<td>" + v.ename + "</td>";
+                    info += "<td>" + v.areasion + "</td>";
+                    info += "<td>" + v.tname + "</td>";
+                    info += "<td>" + v.amoney + "</td>";
+                    info += "<td>" + v.pmoney + "</td>";
+                    info += "<td>" + v.adate + "</td>";
+                    info += "<td>" + showStaus(v.astatus)+ "</td>";
+                    info += "</tr>";
+                });
+                $("#tb").html(info);
+
+            }, "json"
+        )
+    }
+    function showSelectTy(){
+        $.post(
+            'expense?cmd=typeList',
+            function (data) {
+                var info="";
+                $(data).each(function (i, v) {
+                    info+="<option value='"+v.tid+"' >"+v.tname+"</option>"
+                })
+                $("#tid").html(info);
+            },"json"
+        );
+    }
+    $(function () {
+        showTable()
+        showSelectTy()
+    });
+
+    function submitForm() {
+        var form_data = $("form").serialize();
+        $.post(
+            "expense?cmd=add",
+            form_data,
+            function (data) {
+                if (data.success == 0) {
+                    alert(data.message);
+                }
+            }, "json"
+        );
+    }
+    function showStaus(v) {
+        return v==="N"?"新建":"已报销";
+    }
+
+</script>
